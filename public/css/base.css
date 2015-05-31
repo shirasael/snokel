@@ -1,0 +1,34 @@
+body {
+  background: #fff;
+  font-family: "Roboto";
+  font-size: 18px;
+  line-height: 1.7;
+  margin: 0;
+  word-break: break-word;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+#headerimg {
+  width: 100%;
+  position: absolute;
+  top: -50px;
+  left: 0;
+}
+
+#main {
+  width: 60%;
+  height: 80%;
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-50%);
+  margin: 0 auto;
+}
