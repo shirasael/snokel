@@ -1,0 +1,2 @@
+# snokel
+configuration made easy!
