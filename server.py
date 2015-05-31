@@ -9,6 +9,13 @@ class System(object):
 		self.name = name
 		self.configs = configs
 
+@app.route('/save/<system_name>/<config_file>', methods=['POST'])
+def save(system_name, config_file):
+	print "!!!!!!"
+	print request.data
+	print "!!!!!!"
+	return json.dumps("Gotcha :)")
+
 @app.route('/system/<system_name>/<config_file>')
 def sys(system_name, config_file):
 	return render_template('index.html', system=system_name, config=config_file)
