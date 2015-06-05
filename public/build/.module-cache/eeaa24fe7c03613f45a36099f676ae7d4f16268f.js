@@ -55,11 +55,12 @@ var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList
 });
 
 var ConfigForm = React.createClass({displayName: "ConfigForm",
-  getInitialState: function() {
+  mixins: [React.addons.LinkedStateMixin],
+	getInitialState: function() {
 		return {data: this.props.data, dataMeta: this.props.dataMeta};
 	},
-	updateData: function(obj, state) {
-		this.setState(state);
+	updateData: function(args) {
+		this.setState(args);
 	},
 	render: function() {
 		return (
@@ -68,7 +69,7 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 					React.createElement("span", {className: "jsonSpan"}, "JSON: ", JSON.stringify(this.state.data))
 				), 
 				React.createElement("div", {className: "configForm"}, 
-					React.createElement(DictInput, {ref: "configComponents", value: this.state.data, dataMeta: this.state.dataMeta, valueChanged: this.updateData})
+					React.createElement(ConfigComponentsList, {ref: "configComponents", data: this.state.data, dataMeta: this.state.dataMeta, onChange: this.updateData})
 				)
 			)
 		);
@@ -77,8 +78,8 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 
 var ConfigPage = React.createClass({displayName: "ConfigPage",
 	handleSave: function() {
-		var jsonData = this.refs.confForm.state.data;
-		console.log(jsonData);
+		var jsonData = this.refs.confForm.data;
+		var saveSpan = this.refs.savedSpan;
 		var url = '/save/' + this.props.system + "/" + this.props.config;
 		$.ajax({
 	    url: url,
@@ -89,6 +90,7 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 	    async: false,
 	    success: function(msg) {
 	      alert(msg);
+	      savedSpan.style.visibility = "visible";
 	    }.bind(this),
 	    error: function(xhr, status, err) {
         console.error(xhr, status, err.toString());
@@ -103,6 +105,7 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 					React.createElement("h2", {className: "configTitle"}, this.props.config)
 				), 
 				React.createElement(ConfigForm, {ref: "confForm", data: data, dataMeta: dataMeta}), 
+				React.createElement("span", {style: {visibility: "hidden"}, ref: "savedSpan"}, "Saved!"), 
 				React.createElement("button", {className: "saveButton", onClick: this.handleSave}, "SAVE!"), 
 				React.createElement("br", null)
 			)

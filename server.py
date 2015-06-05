@@ -1,6 +1,7 @@
 import json
 import os
 from flask import Flask, Response, request, render_template
+from hq import SnorkelHQ
 
 app = Flask(__name__, static_url_path='', static_folder='public', template_folder='public')
 
@@ -11,14 +12,15 @@ class System(object):
 
 @app.route('/save/<system_name>/<config_file>', methods=['POST'])
 def save(system_name, config_file):
+	jsonConfig = request.data
 	print "!!!!!!"
-	print request.data
+	print jsonConfig
 	print "!!!!!!"
 	return json.dumps("Gotcha :)")
 
 @app.route('/system/<system_name>/<config_file>')
 def sys(system_name, config_file):
-	return render_template('index.html', system=system_name, config=config_file)
+	return render_template('config.html', system=system_name, config=config_file)
 
 @app.route('/')
 def root():

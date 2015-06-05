@@ -68,7 +68,7 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 					React.createElement("span", {className: "jsonSpan"}, "JSON: ", JSON.stringify(this.state.data))
 				), 
 				React.createElement("div", {className: "configForm"}, 
-					React.createElement(DictInput, {ref: "configComponents", value: this.state.data, dataMeta: this.state.dataMeta, valueChanged: this.updateData})
+					React.createElement(DictInput, {ref: "configComponents", data: this.state.data, dataMeta: this.state.dataMeta, valueChanged: this.updateData})
 				)
 			)
 		);

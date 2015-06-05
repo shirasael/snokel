@@ -82,13 +82,59 @@ var ListInput = React.createClass({
 	render: function() {
 		return (
 			<div className="listCompsDiv">
-				<div className="existing">
+				<div className="existingList">
 					<span>[</span>
 						{this.renderInnerComponents()}
 					<span>]</span>
 				</div>
 				<TypeSelector ref="selector" />
 				<button onClick={this.addComponent}>Add</button>
+			</div>
+		);
+	}
+});
+
+var DictInput = React.createClass({
+	getInitialState: function() {
+		if (this.props.value) {
+			return {value: this.props.value, dataMeta: this.props.dataMeta};
+		}
+		return {value: {}, dataMeta: this.props.dataMeta};
+	},
+  handleChange: function(comp, newVals) {
+  	this.state.value[comp.props.fieldName] = newVals.value;
+  	this.state.dataMeta[comp.props.fieldName] = newVals.dataMeta;
+  	this.setState({value : this.state.value, dataMeta : this.state.dataMeta});
+    this.props.valueChanged(this, {value : this.state.value, dataMeta: this.state.dataMeta});
+  },
+  renderInnerComponents: function() {
+  	var comps = [];
+  	var index = 0;
+  	for (compName in this.state.value) {
+  		var val = this.state.value[compName];
+  		var meta = this.state.dataMeta[compName];
+  		comps.push(<ConfigComponent key={index} onChange={this.handleChange} fieldName={compName} value={val} dataMeta={meta} />)
+  		index++;
+  	}
+  	return comps;
+  },
+  addComponent: function(compName, compType) {
+  	this.state.value[compName] = null;
+  	this.state.dataMeta[compName] = {self: compType};
+  	this.setState({value: this.state.value, dataMeta: this.state.dataMeta});
+    this.props.valueChanged(this, {value : this.state.value, dataMeta: this.state.dataMeta});
+  },
+	render: function() {
+		var openCluase = '{';
+		var closeCluase = '}';
+		return (
+			<div className="dictCompsDiv">
+				<div className="existingDict">
+					<span>{openCluase}</span>
+						{this.renderInnerComponents()}
+					<span>{closeCluase}</span>
+				</div>
+				<ConfigComponentCreator onComponentCreated={this.addComponent}></ConfigComponentCreator>
 			</div>
 		);
 	}
@@ -127,6 +173,8 @@ var InputGenerator = {
 			return ( <BoolInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
 		} else if (elmType == "list") {
 			return ( <ListInput val={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
+		} else if (elmType == "dict") {
+			return ( <DictInput val={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
 		} else {
 			return null;
 		}

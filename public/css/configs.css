@@ -1,0 +1,34 @@
+.existingDict {
+	margin-left: 35px;
+}
+
+.existingDict.configComp {
+	margin-left: 35px;
+}
+
+.existingList {
+	margin-left: 35px;
+}
+
+#backgroundDiv {
+  width: 100%;
+  height: 30%;
+  position: fixed;
+  background-color: rgb(53, 109, 126);
+  box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.85);
+}
+
+body {
+	background-color: #EDE4B6;
+}
+
+#content {
+  background-color: white;
+  box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.85);
+  padding: 20px;
+  margin-bottom: 100px;
+}
+
+.configHeader {
+  margin-bottom: 50px;
+}

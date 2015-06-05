@@ -55,11 +55,12 @@ var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList
 });
 
 var ConfigForm = React.createClass({displayName: "ConfigForm",
-  getInitialState: function() {
+  mixins: [React.addons.LinkedStateMixin],
+	getInitialState: function() {
 		return {data: this.props.data, dataMeta: this.props.dataMeta};
 	},
-	updateData: function(obj, state) {
-		this.setState(state);
+	updateData: function(args) {
+		this.setState(args);
 	},
 	render: function() {
 		return (
@@ -68,7 +69,7 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 					React.createElement("span", {className: "jsonSpan"}, "JSON: ", JSON.stringify(this.state.data))
 				), 
 				React.createElement("div", {className: "configForm"}, 
-					React.createElement(DictInput, {ref: "configComponents", value: this.state.data, dataMeta: this.state.dataMeta, valueChanged: this.updateData})
+					React.createElement(ConfigComponentsList, {ref: "configComponents", data: this.state.data, dataMeta: this.state.dataMeta, onChange: this.updateData})
 				)
 			)
 		);

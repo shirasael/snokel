@@ -23,7 +23,7 @@
     <link href="{{ url_for('static', filename='web_fonts/roboto_thin_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
     <link href="{{ url_for('static', filename='web_fonts/roboto_thinitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sys-card.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/configs.css') }}" />
     <script src="{{ url_for('static', filename='static/react-with-addons.min.js') }}"></script>
     <script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>
     <script src="{{ url_for('static', filename='static/jquery-2.1.4.min.js') }}"></script>
@@ -31,14 +31,20 @@
     <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>
   </head>
   <body>
+    <div id="backgroundDiv"></div>
     <div id="main">
       <div id="content"></div>
     </div>
     <script src="{{ url_for('static', filename='scripts/util.js') }}"></script>
-    <script src="{{ url_for('static', filename='build/front.js') }}"></script>
+    <script src="{{ url_for('static', filename='build/inputs.js') }}"></script>
+    <script src="{{ url_for('static', filename='build/snorkel.js') }}"></script>
+    <script type="text/javascript">
+        var sys = "{{ system }}";
+        var cfg = "{{ config }}";
+    </script>
     <script type="text/jsx">
         React.render(
-          <SystemsList url="/systems"/>,
+          <ConfigPage system={sys} config={cfg} />,
           document.getElementById('content')
         );
     </script>

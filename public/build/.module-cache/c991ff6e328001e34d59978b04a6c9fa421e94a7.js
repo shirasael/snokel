@@ -110,8 +110,8 @@ var DictInput = React.createClass({displayName: "DictInput",
   renderInnerComponents: function() {
   	var comps = [];
   	var index = 0;
-  	for (compName in this.state.value) {
-  		var val = this.state.value[compName];
+  	for (compName in this.state.data) {
+  		var val = this.state.data[compName];
   		var meta = this.state.dataMeta[compName];
   		comps.push(React.createElement(ConfigComponent, {key: index, onChange: this.handleChange, fieldName: compName, value: val, dataMeta: meta}))
   		index++;

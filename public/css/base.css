@@ -7,6 +7,11 @@ body {
   word-break: break-word;
 }
 
+h1, h2 {
+  font-weight: 300;
+  margin: 0 auto; 
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -23,12 +28,12 @@ body {
 }
 
 #main {
-  width: 60%;
+  width: 75%;
   height: 80%;
+  max-width: 900px;
   display: block;
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
-  transform: translate(-50%);
+  position: relative;
+  top: 100px;
+  bottom: 200px;
   margin: 0 auto;
 }

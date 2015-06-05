@@ -19,7 +19,6 @@ var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList
   	this.state.data[comp.props.fieldName] = newVals.value;
   	this.state.dataMeta[comp.props.fieldName] = newVals.dataMeta;
   	this.setState({data : this.state.data, dataMeta : this.state.dataMeta});
-  	this.props.onChange(this.state);
   },
   renderComponents: function() {
   	var comps = [];
@@ -36,7 +35,6 @@ var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList
   	this.state.data[compName] = null;
   	this.state.dataMeta[compName] = {self: compType};
   	this.setState({data: this.state.data, dataMeta: this.state.dataMeta});
-  	this.props.onChange(this.state);
   },
 	render: function() {
 		return (
@@ -55,12 +53,10 @@ var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList
 });
 
 var ConfigForm = React.createClass({displayName: "ConfigForm",
-  getInitialState: function() {
+  mixins: [React.addons.LinkedStateMixin],
+	getInitialState: function() {
 		return {data: this.props.data, dataMeta: this.props.dataMeta};
-	},
-	updateData: function(obj, state) {
-		this.setState(state);
-	},
+	},	
 	render: function() {
 		return (
 			React.createElement("div", null, 
@@ -68,7 +64,7 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 					React.createElement("span", {className: "jsonSpan"}, "JSON: ", JSON.stringify(this.state.data))
 				), 
 				React.createElement("div", {className: "configForm"}, 
-					React.createElement(DictInput, {ref: "configComponents", value: this.state.data, dataMeta: this.state.dataMeta, valueChanged: this.updateData})
+					React.createElement(ConfigComponentsList, {ref: "configComponents", data: data, dataMeta: dataMeta})
 				)
 			)
 		);
@@ -77,11 +73,9 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 
 var ConfigPage = React.createClass({displayName: "ConfigPage",
 	handleSave: function() {
-		var jsonData = this.refs.confForm.state.data;
-		console.log(jsonData);
-		var url = '/save/' + this.props.system + "/" + this.props.config;
+		var jsonData = this.refs.confForm.data;
 		$.ajax({
-	    url: url,
+	    url: '/save/' + this.props.system + "/" + this.props.config,
 	    type: 'POST',
 	    data: JSON.stringify(jsonData),
 	    contentType: 'application/json; charset=utf-8',
@@ -91,7 +85,7 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 	      alert(msg);
 	    }.bind(this),
 	    error: function(xhr, status, err) {
-        console.error(xhr, status, err.toString());
+        console.error('/save/' + this.props.system + "/" + this.props.config, status, err.toString());
       }.bind(this)
     });
 	},
@@ -104,7 +98,7 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 				), 
 				React.createElement(ConfigForm, {ref: "confForm", data: data, dataMeta: dataMeta}), 
 				React.createElement("button", {className: "saveButton", onClick: this.handleSave}, "SAVE!"), 
-				React.createElement("br", null)
+				React.createElement("span", {style: {visibility: "hidden"}, ref: "savedSpan"}, "Saved!")
 			)
 		);
 	}

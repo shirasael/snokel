@@ -107,11 +107,11 @@ var DictInput = React.createClass({displayName: "DictInput",
   	this.setState({value : this.state.value, dataMeta : this.state.dataMeta});
     this.props.valueChanged(this, {value : this.state.value, dataMeta: this.state.dataMeta});
   },
-  renderInnerComponents: function() {
+  renderComponents: function() {
   	var comps = [];
   	var index = 0;
-  	for (compName in this.state.value) {
-  		var val = this.state.value[compName];
+  	for (compName in this.state.data) {
+  		var val = this.state.data[compName];
   		var meta = this.state.dataMeta[compName];
   		comps.push(React.createElement(ConfigComponent, {key: index, onChange: this.handleChange, fieldName: compName, value: val, dataMeta: meta}))
   		index++;
@@ -122,7 +122,6 @@ var DictInput = React.createClass({displayName: "DictInput",
   	this.state.value[compName] = null;
   	this.state.dataMeta[compName] = {self: compType};
   	this.setState({value: this.state.value, dataMeta: this.state.dataMeta});
-    this.props.valueChanged(this, {value : this.state.value, dataMeta: this.state.dataMeta});
   },
 	render: function() {
 		var openCluase = '{';
