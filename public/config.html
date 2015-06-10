@@ -25,10 +25,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/configs.css') }}" />
     <script src="{{ url_for('static', filename='static/react-with-addons.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>-->
     <script src="{{ url_for('static', filename='static/jquery-2.1.4.min.js') }}"></script>
     <link href="{{ url_for('static', filename='static/jquery-2.1.4.min.map') }}"/>
-    <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>-->
   </head>
   <body>
     <div id="backgroundDiv"></div>
@@ -37,16 +37,10 @@
     </div>
     <script src="{{ url_for('static', filename='scripts/util.js') }}"></script>
     <script src="{{ url_for('static', filename='build/inputs.js') }}"></script>
-    <script src="{{ url_for('static', filename='build/snorkel.js') }}"></script>
     <script type="text/javascript">
         var sys = "{{ system }}";
         var cfg = "{{ config }}";
     </script>
-    <script type="text/jsx">
-        React.render(
-          <ConfigPage system={sys} config={cfg} />,
-          document.getElementById('content')
-        );
-    </script>
+    <script src="{{ url_for('static', filename='build/snorkel.js') }}"></script>
   </body>
 </html>

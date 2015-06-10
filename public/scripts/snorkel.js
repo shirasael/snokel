@@ -1,3 +1,4 @@
+
 var data = {
 	"MaxLength" : 50,
 	"BackupDirectory" : "/tmp",
@@ -109,3 +110,8 @@ var ConfigPage = React.createClass({
 		);
 	}
 });
+
+React.render(
+  <ConfigPage system={sys} config={cfg} />,
+  document.getElementById('content')
+);

@@ -1,3 +1,6 @@
+// var injectTapEventPlugin = require("react-tap-event-plugin");
+// injectTapEventPlugin();
+
 var NumberInput = React.createClass({
 	getInitialState: function() {
 		return {value: Number(this.props.value), dataMeta: this.props.dataMeta};
