@@ -4,7 +4,7 @@ from flask import Flask, Response, request, render_template
 from _hq.client import SnorkelHQCommander
 
 app = Flask(__name__, static_url_path='', static_folder='public', template_folder='public')
-commander = SnorkelHQCommander('192.168.43.6')
+commander = SnorkelHQCommander('192.168.43.114')
 
 
 class System(object):
@@ -30,14 +30,21 @@ def root():
     return render_template('index.html')
 
 
+
+
 @app.route('/systems', methods=['GET', 'POST'])
 def systems():
     # systems = [System("SYS-A", ["CFG_A", "CFG-B"]), System("SYS-B", ["CFG_A (B)", "CFG-B (B)"]),
     #            System("{{ SYS-C", ["{{{ CFG_A (C) }}}", "CFG-B (C)"]),
     #            System("I'm something else", ["other", "thing", "at all"])]
-    systems = commander.get_all_systems()
+    systems = get_systems()
     return Response(json.dumps([s.__dict__ for s in systems]), mimetype='application/json',
                     headers={'Cache-Control': 'no-cache'})
+
+def get_systems():
+    system_names = commander.get_all_systems()
+    systems = [System(name, commander.get_all_configurations(name)) for name in system_names]
+    return systems
 
 
 if __name__ == '__main__':
