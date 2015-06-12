@@ -7,7 +7,7 @@ var SystemCard = React.createClass({displayName: "SystemCard",
             );
         });
         return (
-        	React.createElement("div", {className: "col s6"}, 
+        	React.createElement("div", {className: "col s4"}, 
 	          React.createElement("div", {className: "card small"}, 
 	            React.createElement("div", {className: "card-image waves-effect waves-block waves-light"}, 
 	              React.createElement("img", {className: "activator", src: this.props.sysImg})

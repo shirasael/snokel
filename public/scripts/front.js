@@ -7,7 +7,7 @@ var SystemCard = React.createClass({
             );
         });
         return (
-        	<div className="col s6">
+        	<div className="col s4">
 	          <div className="card small">
 	            <div className="card-image waves-effect waves-block waves-light">
 	              <img className="activator" src={this.props.sysImg} />
