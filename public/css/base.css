@@ -12,19 +12,8 @@ h1, h2 {
   margin: 0 auto; 
 }
 
-#header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-}
-
-#headerimg {
-  width: 100%;
-  position: absolute;
-  top: -50px;
-  left: 0;
+.brand-logo {
+  margin-left: 10px;
 }
 
 #main {

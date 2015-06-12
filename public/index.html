@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello React</title>
-    <!-- Not present in the tutorial. Just for basic styling. -->
+<head>
+    <title>Snorkel</title>
 
-    <link href="{{ url_for('static', filename='web_fonts/roboto_black_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_blackitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_bold_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_boldcondensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_boldcondenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_bolditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_condensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_condenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_italic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_light_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightcondensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightcondenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_medium_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_mediumitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_regular_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_thin_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_thinitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sys-card.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"
+          media="screen,projection"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sys-card.css') }}"/>
+
     <script src="{{ url_for('static', filename='static/react-with-addons.min.js') }}"></script>
     <script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>
     <script src="{{ url_for('static', filename='static/jquery-2.1.4.min.js') }}"></script>
     <link href="{{ url_for('static', filename='static/jquery-2.1.4.min.map') }}"/>
-    <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>      
+    <script type="text/javascript" src="{{ url_for('static', filename='static/materialize.min.js') }}"></script>
+
   </head>
   <body>
-    <div id="main">
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper  blue darken-4">
+          <a href="/" class="brand-logo">Snorkel</a>
+        </div>
+      </nav>
+    </div>
+    <br/>
+    <br/>
+    <div class="container">
       <div id="content"></div>
     </div>
-    <script src="{{ url_for('static', filename='scripts/util.js') }}"></script>
+    <script src="{{ url_for('static', filename='build/util.js') }}"></script>
     <script src="{{ url_for('static', filename='build/front.js') }}"></script>
     <script type="text/jsx">
         React.render(
