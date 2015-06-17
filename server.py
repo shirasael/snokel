@@ -20,6 +20,30 @@ def save(system_name, config_file):
     return json.dumps("Gotcha :)")
 
 
+@app.route('/load/<system_name>/<config_file>', methods=['GET'])
+def load(system_name, config_file):
+    res = {
+        "something": "123",
+        "somethingElse": 55,
+        "completelyDifferent": True,
+        "notSoSpecial": [1, 2, 3, 4],
+        "soUnique": {
+            "a": [
+                {
+                    "hello": 1,
+                    "there": 2,
+                },
+                {
+                    "hi": "to",
+                    "you": "too"
+                }
+            ]
+        }
+    }
+    # commander.deploy_configuration('10.0.0.1', system_name, config_file, jsonConfig)
+    return json.dumps(res)
+
+
 @app.route('/system/<system_name>/<config_file>')
 def sys(system_name, config_file):
     return render_template('config.html', system=system_name, config=config_file)
@@ -42,6 +66,7 @@ def systems():
     # systems = get_systems()
     return Response(json.dumps([s.__dict__ for s in systems]), mimetype='application/json',
                     headers={'Cache-Control': 'no-cache'})
+
 
 def get_systems():
     system_names = commander.get_all_systems()

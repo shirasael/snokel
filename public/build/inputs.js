@@ -1,6 +1,3 @@
-// var injectTapEventPlugin = require("react-tap-event-plugin");
-// injectTapEventPlugin();
-
 var NumberInput = React.createClass({displayName: "NumberInput",
 	getInitialState: function() {
 		return {value: Number(this.props.value), dataMeta: this.props.dataMeta};
@@ -155,11 +152,11 @@ var TypeSelector = React.createClass({displayName: "TypeSelector",
 	render: function() {
 		return (
 			React.createElement("select", {ref: "compType", value: this.state.selected, onChange: this.handleChange}, 
-      	React.createElement("option", {value: "num"}, "Number"), 
-      	React.createElement("option", {value: "str"}, "String"), 
-      	React.createElement("option", {value: "bool"}, "Boolean"), 
+      	React.createElement("option", {value: typeof 1}, "Number"), 
+      	React.createElement("option", {value: typeof ""}, "String"), 
+      	React.createElement("option", {value: typeof false}, "Boolean"), 
       	React.createElement("option", {value: "list"}, "List"), 
-      	React.createElement("option", {value: "dict"}, "Dict")
+      	React.createElement("option", {value: typeof {}}, "Dict")
       )
 		);
 	}
@@ -168,16 +165,16 @@ var TypeSelector = React.createClass({displayName: "TypeSelector",
 var InputGenerator = {
 	generateInputElement: function(val, onChange, meta, key) {
 		var elmType = meta.self;
-		if (elmType == "num") {
+		if (elmType == typeof 1) {
 			return ( React.createElement(NumberInput, {value: val, valueChanged: onChange, dataMeta: meta, key: key}) );
-		} else if (elmType == "str") {
+		} else if (elmType == typeof "") {
 			return ( React.createElement(StringInput, {value: val, valueChanged: onChange, dataMeta: meta, key: key}) );
-		} else if (elmType == "bool") {
+		} else if (elmType == typeof false) {
 			return ( React.createElement(BoolInput, {value: val, valueChanged: onChange, dataMeta: meta, key: key}) );
 		} else if (elmType == "list") {
-			return ( React.createElement(ListInput, {val: val, valueChanged: onChange, dataMeta: meta, key: key}) );
-		} else if (elmType == "dict") {
-			return ( React.createElement(DictInput, {val: val, valueChanged: onChange, dataMeta: meta, key: key}) );
+			return ( React.createElement(ListInput, {value: val, valueChanged: onChange, dataMeta: meta, key: key}) );
+		} else if (elmType == typeof {}) {
+			return ( React.createElement(DictInput, {value: val, valueChanged: onChange, dataMeta: meta, key: key}) );
 		} else {
 			return null;
 		}

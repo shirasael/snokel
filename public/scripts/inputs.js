@@ -1,6 +1,3 @@
-// var injectTapEventPlugin = require("react-tap-event-plugin");
-// injectTapEventPlugin();
-
 var NumberInput = React.createClass({
 	getInitialState: function() {
 		return {value: Number(this.props.value), dataMeta: this.props.dataMeta};
@@ -155,11 +152,11 @@ var TypeSelector = React.createClass({
 	render: function() {
 		return (
 			<select ref="compType" value={this.state.selected} onChange={this.handleChange}>
-      	<option value="num">Number</option>
-      	<option value="str">String</option>
-      	<option value="bool">Boolean</option>
+      	<option value={typeof 1}>Number</option>
+      	<option value={typeof ""}>String</option>
+      	<option value={typeof false}>Boolean</option>
       	<option value="list">List</option>
-      	<option value="dict">Dict</option>
+      	<option value={typeof {}}>Dict</option>
       </select>
 		);
 	}
@@ -168,16 +165,16 @@ var TypeSelector = React.createClass({
 var InputGenerator = {
 	generateInputElement: function(val, onChange, meta, key) {
 		var elmType = meta.self;
-		if (elmType == "num") {
+		if (elmType == typeof 1) {
 			return ( <NumberInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
-		} else if (elmType == "str") {
+		} else if (elmType == typeof "") {
 			return ( <StringInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
-		} else if (elmType == "bool") {
+		} else if (elmType == typeof false) {
 			return ( <BoolInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
 		} else if (elmType == "list") {
-			return ( <ListInput val={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
-		} else if (elmType == "dict") {
-			return ( <DictInput val={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
+			return ( <ListInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
+		} else if (elmType == typeof {}) {
+			return ( <DictInput value={val} valueChanged={onChange} dataMeta={meta} key={key}/> );
 		} else {
 			return null;
 		}

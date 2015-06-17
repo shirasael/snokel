@@ -1,60 +1,3 @@
-
-var data = {
-	"MaxLength" : 50,
-	"BackupDirectory" : "/tmp",
-	"ShouldForce" : true
-};
-
-var dataMeta = {
-	"MaxLength" : {self: "num"},
-	"BackupDirectory" : {self: "str"},
-	"ShouldForce" : {self: "bool"}
-}
-
-
-var ConfigComponentsList = React.createClass({displayName: "ConfigComponentsList",
-	getInitialState: function() {
-		return {data: this.props.data, dataMeta: this.props.dataMeta};
-	},
-  handleChange: function(comp, newVals) {
-  	this.state.data[comp.props.fieldName] = newVals.value;
-  	this.state.dataMeta[comp.props.fieldName] = newVals.dataMeta;
-  	this.setState({data : this.state.data, dataMeta : this.state.dataMeta});
-  	this.props.onChange(this.state);
-  },
-  renderComponents: function() {
-  	var comps = [];
-  	var index = 0;
-  	for (compName in this.state.data) {
-  		var val = this.state.data[compName];
-  		var meta = this.state.dataMeta[compName];
-  		comps.push(React.createElement(ConfigComponent, {key: index, onChange: this.handleChange, fieldName: compName, value: val, dataMeta: meta}))
-  		index++;
-  	}
-  	return comps;
-  },
-  addComponent: function(compName, compType) {
-  	this.state.data[compName] = null;
-  	this.state.dataMeta[compName] = {self: compType};
-  	this.setState({data: this.state.data, dataMeta: this.state.dataMeta});
-  	this.props.onChange(this.state);
-  },
-	render: function() {
-		return (
-			React.createElement("div", null, 
-				React.createElement("br", null), 
-				React.createElement("div", null, 
-					React.createElement("div", {className: "components"}, 
-						this.renderComponents()
-					), 
-					React.createElement("br", null), 
-					React.createElement(ConfigComponentCreator, {onComponentCreated: this.addComponent})
-				)
-			)
-		);
-	}
-});
-
 var ConfigForm = React.createClass({displayName: "ConfigForm",
   getInitialState: function() {
 		return {data: this.props.data, dataMeta: this.props.dataMeta};
@@ -96,14 +39,51 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
       }.bind(this)
     });
 	},
+	fetchConfigs: function() {
+		var url = '/load/' + this.props.system + "/" + this.props.config;
+		data = {};
+		$.ajax({
+	    url: url,
+	    type: 'GET',
+	    dataType: 'json',
+	    async: false,
+	    success: function(msg) {
+	      data = msg;
+	    }.bind(this),
+	    error: function(xhr, status, err) {
+        console.error(xhr, status, err.toString());
+      }.bind(this)
+    });
+    return data;
+	},
+	calculateDataMeta: function(confs) {
+		var meta = {self: this.getMetaType(confs)};
+		if (meta.self == typeof {} || meta.self == "list") {
+			for (conf in confs) {
+				meta[conf] = this.calculateDataMeta(confs[conf]);
+			}
+		}
+		return meta;
+	},
+	getMetaType: function(elm) {
+		if (Array.isArray(elm)) {
+				return "list";
+		} else {
+			return typeof elm;
+		}
+	},
 	render: function() {
+		confs = this.fetchConfigs();
+		console.log(confs);
+		meta = this.calculateDataMeta(confs);
+		console.log(meta);
 		return (
 			React.createElement("div", null, 
 				React.createElement("div", {className: "configHeader"}, 
 					React.createElement("h1", {className: "systemTitle"}, this.props.system), 
 					React.createElement("h2", {className: "configTitle"}, this.props.config)
 				), 
-				React.createElement(ConfigForm, {ref: "confForm", data: data, dataMeta: dataMeta}), 
+				React.createElement(ConfigForm, {ref: "confForm", data: confs, dataMeta: meta}), 
 				React.createElement("button", {className: "saveButton", onClick: this.handleSave}, "SAVE!"), 
 				React.createElement("br", null)
 			)
