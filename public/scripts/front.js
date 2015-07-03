@@ -57,10 +57,12 @@ var SystemsList = React.createClass({
         });
     },
     render: function () {
-      return (
-          <div className="row">
-            {this.renderSystems()}
-          </div>
+      return ( 
+          <Layout>
+            <div className="row">
+              {this.renderSystems()}
+            </div>
+          </Layout>
       );
 
     }

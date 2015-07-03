@@ -1,10 +1,10 @@
 import json
 import os
 from flask import Flask, Response, request, render_template
-from _hq.client import SnorkelHQCommander
+from _hq.main import SnorkelHQCommander
 
 app = Flask(__name__, static_url_path='', static_folder='public', template_folder='public')
-commander = SnorkelHQCommander('192.168.43.114')
+commander = SnorkelHQCommander('localhost')
 
 
 class System(object):
@@ -40,8 +40,16 @@ def load(system_name, config_file):
             ]
         }
     }
-    # commander.deploy_configuration('10.0.0.1', system_name, config_file, jsonConfig)
-    return json.dumps(res)
+    xml = """
+        <a>
+            YOYOYOYOYO
+        </a>
+        <bbb>
+            <hahaha>SHIRAAAA</hahaha>
+        </bbb>
+    """
+    # return json.dumps(xml, indent=4)
+    return xml
 
 
 @app.route('/system/<system_name>/<config_file>')
@@ -69,11 +77,11 @@ def systems():
 
 
 def get_systems():
-    system_names = commander.get_all_systems()
-    systems = [System(name, commander.get_all_configurations(name)) for name in system_names]
+    system_names = commander.get_systems()
+    systems = [System(name, commander.get_configurations(name)) for name in system_names]
     return systems
 
 
 if __name__ == '__main__':
-    commander.initialize()
+    # commander.initialize()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 3000)), debug=True)

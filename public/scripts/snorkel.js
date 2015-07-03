@@ -1,18 +1,29 @@
 var ConfigForm = React.createClass({
   getInitialState: function() {
-		return {data: this.props.data, dataMeta: this.props.dataMeta};
+		return {data: this.props.data};
 	},
-	updateData: function(obj, state) {
-		this.setState(state);
+	updateDataCostume: function(state) {
+		var newData = this.refs.costume.getRawData(state.data);
+		this.refs.raw.updateData(newData);
+		this.setState({data: newData});
+	},
+	updateDataRaw: function(state) {
+		this.refs.costume.updateData(state.data);
+		this.setState({data: state.data});
+	},
+	getCostumeEditor: function(data) {
+		if (isJSON(data)) {
+			return <JsonEditor data={this.state.data} onChange={this.updateDataCostume} ref="costume" />;
+		}
+		return null;
 	},
 	render: function() {
+		var costume = this.getCostumeEditor(this.state.data);
+		var raw = <RawEditor data={this.state.data} onChange={this.updateDataRaw} ref="raw" />
 		return (
 			<div>
-				<div className="jsonDiv">
-					<span className="jsonSpan">JSON: {JSON.stringify(this.state.data)}</span>
-				</div>
 				<div className="configForm">
-					<DictInput ref="configComponents" value={this.state.data} dataMeta={this.state.dataMeta} valueChanged={this.updateData}></DictInput>
+					<Tabs raw={raw} costume={costume}/>
 				</div>
 			</div>
 		);
@@ -21,13 +32,13 @@ var ConfigForm = React.createClass({
 
 var ConfigPage = React.createClass({
 	handleSave: function() {
-		var jsonData = this.refs.confForm.state.data;
-		console.log(jsonData);
+		var toSave = this.refs.confForm.state.data;
+		console.log(toSave);
 		var url = '/save/' + this.props.system + "/" + this.props.config;
 		$.ajax({
 	    url: url,
 	    type: 'POST',
-	    data: JSON.stringify(jsonData),
+	    data: toSave,
 	    contentType: 'application/json; charset=utf-8',
 	    dataType: 'json',
 	    async: false,
@@ -45,7 +56,7 @@ var ConfigPage = React.createClass({
 		$.ajax({
 	    url: url,
 	    type: 'GET',
-	    dataType: 'json',
+	    dataType: 'text',
 	    async: false,
 	    success: function(msg) {
 	      data = msg;
@@ -56,42 +67,28 @@ var ConfigPage = React.createClass({
     });
     return data;
 	},
-	calculateDataMeta: function(confs) {
-		var meta = {self: this.getMetaType(confs)};
-		if (meta.self == typeof {} || meta.self == "list") {
-			for (conf in confs) {
-				meta[conf] = this.calculateDataMeta(confs[conf]);
-			}
-		}
-		return meta;
-	},
-	getMetaType: function(elm) {
-		if (Array.isArray(elm)) {
-				return "list";
-		} else {
-			return typeof elm;
-		}
-	},
 	render: function() {
-		confs = this.fetchConfigs();
-		console.log(confs);
-		meta = this.calculateDataMeta(confs);
-		console.log(meta);
+		var confs = this.fetchConfigs();
+		var buttons = [
+			<li><a onClick={this.showJSON}><i className="mdi-image-remove-red-eye left"></i>Show JSON</a></li>,
+      <li><a onClick={this.handleSave}><i className="mdi-file-file-upload right"></i>SAVE</a></li>
+		];
 		return (
-			<div>
-				<div className="configHeader">
-					<h1 className="systemTitle">{this.props.system}</h1>
-					<h2 className="configTitle">{this.props.config}</h2>
+		  <Layout navBackArrow navBackRef="/" navbarButtons={buttons}>
+				<div>
+					<div className="configHeader">
+						<h1 className="systemTitle">{this.props.system}</h1>
+						<h2 className="configTitle">{this.props.config}</h2>
+					</div>
+					<br/>
+					<ConfigForm ref="confForm" data={confs}/>
 				</div>
-				<ConfigForm ref="confForm" data={confs} dataMeta={meta}/>
-				<button className="saveButton" onClick={this.handleSave}>SAVE!</button>
-				<br/>
-			</div>
+			</Layout>
 		);
 	}
 });
 
 React.render(
-  <ConfigPage system={sys} config={cfg} />,
+	<ConfigPage system={sys} config={cfg}/>,
   document.getElementById('content')
 );

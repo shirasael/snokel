@@ -3,38 +3,23 @@
   <head>
     <title>{{ system }} - {{ config }}</title>
 
-    <link href="{{ url_for('static', filename='web_fonts/roboto_black_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_blackitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_bold_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css' />
-    <link href="{{ url_for('static', filename='web_fonts/roboto_boldcondensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_boldcondenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_bolditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_condensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_condenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_italic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_light_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightcondensed_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightcondenseditalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_lightitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_medium_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_mediumitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_regular_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_thin_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link href="{{ url_for('static', filename='web_fonts/roboto_thinitalic_macroman/stylesheet.css') }}" rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/configs.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+
     <script src="{{ url_for('static', filename='static/react-with-addons.min.js') }}"></script>
-    <!--<script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>
     <script src="{{ url_for('static', filename='static/jquery-2.1.4.min.js') }}"></script>
     <link href="{{ url_for('static', filename='static/jquery-2.1.4.min.map') }}"/>
-    <!--<script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>-->
+    <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>      
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bin/materialize.min.js') }}"></script>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}"
+          media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/configs.css') }}" />
   </head>
   <body>
-    <div id="backgroundDiv"></div>
-    <div id="main">
-      <div id="content"></div>
-    </div>
-    <script src="{{ url_for('static', filename='scripts/util.js') }}"></script>
+    <div id="content"></div>
+    <script src="{{ url_for('static', filename='build/util.js') }}"></script>
     <script src="{{ url_for('static', filename='build/inputs.js') }}"></script>
     <script type="text/javascript">
         var sys = "{{ system }}";

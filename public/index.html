@@ -5,32 +5,21 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}"
-          media="screen,projection"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sys-card.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}"
+          media="screen,projection"/>
 
     <script src="{{ url_for('static', filename='static/react-with-addons.min.js') }}"></script>
     <script src="{{ url_for('static', filename='static/JSXTransformer.js') }}"></script>
     <script src="{{ url_for('static', filename='static/jquery-2.1.4.min.js') }}"></script>
     <link href="{{ url_for('static', filename='static/jquery-2.1.4.min.map') }}"/>
     <script src="{{ url_for('static', filename='static/showdown.min.js') }}"></script>      
-    <script type="text/javascript" src="{{ url_for('static', filename='static/materialize.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bin/materialize.min.js') }}"></script>
 
   </head>
   <body>
-    <div class="navbar-fixed">
-      <nav>
-        <div class="nav-wrapper  blue darken-4">
-          <a href="/" class="brand-logo">Snorkel</a>
-        </div>
-      </nav>
-    </div>
-    <br/>
-    <br/>
-    <div class="container">
-      <div id="content"></div>
-    </div>
+    <div id="content"></div>
     <script src="{{ url_for('static', filename='build/util.js') }}"></script>
     <script src="{{ url_for('static', filename='build/front.js') }}"></script>
     <script type="text/jsx">
