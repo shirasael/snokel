@@ -8,7 +8,9 @@ var ConfigForm = React.createClass({
 		this.setState({data: newData});
 	},
 	updateDataRaw: function(state) {
-		this.refs.costume.updateData(state.data);
+		if (this.refs.costume) {
+			this.refs.costume.updateData(state.data);
+		}
 		this.setState({data: state.data});
 	},
 	getCostumeEditor: function(data) {
@@ -18,12 +20,17 @@ var ConfigForm = React.createClass({
 		return null;
 	},
 	render: function() {
+		var tabs = [];
 		var costume = this.getCostumeEditor(this.state.data);
+		if (costume != null) {
+			tabs.push({title: "Costume Editor", content: costume});
+		} 
 		var raw = <RawEditor data={this.state.data} onChange={this.updateDataRaw} ref="raw" />
+		tabs.push({title: "Raw Editor", content: raw});
 		return (
 			<div>
 				<div className="configForm">
-					<Tabs raw={raw} costume={costume}/>
+					<Tabs tabs={tabs}/>
 				</div>
 			</div>
 		);
@@ -70,7 +77,6 @@ var ConfigPage = React.createClass({
 	render: function() {
 		var confs = this.fetchConfigs();
 		var buttons = [
-			<li><a onClick={this.showJSON}><i className="mdi-image-remove-red-eye left"></i>Show JSON</a></li>,
       <li><a onClick={this.handleSave}><i className="mdi-file-file-upload right"></i>SAVE</a></li>
 		];
 		return (

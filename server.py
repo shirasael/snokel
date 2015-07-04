@@ -48,8 +48,8 @@ def load(system_name, config_file):
             <hahaha>SHIRAAAA</hahaha>
         </bbb>
     """
-    # return json.dumps(xml, indent=4)
-    return xml
+    return json.dumps(res, indent=4)
+    # return xml
 
 
 @app.route('/system/<system_name>/<config_file>')

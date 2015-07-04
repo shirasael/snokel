@@ -58,31 +58,31 @@ var NavBar = React.createClass({
   }
 });
 
-
 var Tabs = React.createClass({
+  getTabID: function(title, index) {
+    return ;
+  },
   render: function() {
-    var rawTab = null;
-    if (this.props.raw != null) {
-      rawTab = {tab: <li className="tab col s2"><a href="#raw">Raw Editor</a></li>,
-                    page: <div id="raw" className="col s12">{this.props.raw}</div>};
-    }
-    var costumeTab = null;
-    if (this.props.raw != null) {
-      costumeTab = {tab: <li className="tab col s2"><a className="active" href="#costume">Costume Editor</a></li>,
-                    page: <div id="costume" className="col s12">{this.props.costume}</div>};
-    }
+    var tabs = this.props.tabs.map((function (tab, index) {
+            var tabID = String(tab.title).replace(new RegExp(' ', 'g'), '_') + String(index);
+            return (<li className="tab col s2" key={"t" + index}><a href={"#" + tabID}>{tab.title}</a></li>);
+        }));
+    var pages = this.props.tabs.map((function (tab, index) {
+            var tabID = String(tab.title).replace(new RegExp(' ', 'g'), '_') + String(index);
+            return (<div id={tabID} className="col s12" key={"p" + index}>{tab.content}</div>);
+        }));
+
+    var colSize = this.props.tabs.length * 2;
     return (
       <div className="row">
-        <div className="col s4">
+        <div className={"col s" + colSize}>
           <ul className="tabs">
-            {costumeTab.tab}
-            {rawTab.tab}
+            {tabs}
           </ul>
         </div>
         <br/>
         <br/>
-        {costumeTab.page}
-        {rawTab.page}
+        {pages}
       </div>
     );
   }

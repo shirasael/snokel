@@ -58,31 +58,31 @@ var NavBar = React.createClass({displayName: "NavBar",
   }
 });
 
-
 var Tabs = React.createClass({displayName: "Tabs",
+  getTabID: function(title, index) {
+    return ;
+  },
   render: function() {
-    var rawTab = null;
-    if (this.props.raw != null) {
-      rawTab = {tab: React.createElement("li", {className: "tab col s2"}, React.createElement("a", {href: "#raw"}, "Raw Editor")),
-                    page: React.createElement("div", {id: "raw", className: "col s12"}, this.props.raw)};
-    }
-    var costumeTab = null;
-    if (this.props.raw != null) {
-      costumeTab = {tab: React.createElement("li", {className: "tab col s2"}, React.createElement("a", {className: "active", href: "#costume"}, "Costume Editor")),
-                    page: React.createElement("div", {id: "costume", className: "col s12"}, this.props.costume)};
-    }
+    var tabs = this.props.tabs.map((function (tab, index) {
+            var tabID = String(tab.title).replace(new RegExp(' ', 'g'), '_') + String(index);
+            return (React.createElement("li", {className: "tab col s2", key: "t" + index}, React.createElement("a", {href: "#" + tabID}, tab.title)));
+        }));
+    var pages = this.props.tabs.map((function (tab, index) {
+            var tabID = String(tab.title).replace(new RegExp(' ', 'g'), '_') + String(index);
+            return (React.createElement("div", {id: tabID, className: "col s12", key: "p" + index}, tab.content));
+        }));
+
+    var colSize = this.props.tabs.length * 2;
     return (
       React.createElement("div", {className: "row"}, 
-        React.createElement("div", {className: "col s4"}, 
+        React.createElement("div", {className: "col s" + colSize}, 
           React.createElement("ul", {className: "tabs"}, 
-            costumeTab.tab, 
-            rawTab.tab
+            tabs
           )
         ), 
         React.createElement("br", null), 
         React.createElement("br", null), 
-        costumeTab.page, 
-        rawTab.page
+        pages
       )
     );
   }

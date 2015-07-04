@@ -8,7 +8,9 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 		this.setState({data: newData});
 	},
 	updateDataRaw: function(state) {
-		this.refs.costume.updateData(state.data);
+		if (this.refs.costume) {
+			this.refs.costume.updateData(state.data);
+		}
 		this.setState({data: state.data});
 	},
 	getCostumeEditor: function(data) {
@@ -18,12 +20,17 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 		return null;
 	},
 	render: function() {
+		var tabs = [];
 		var costume = this.getCostumeEditor(this.state.data);
+		if (costume != null) {
+			tabs.push({title: "Costume Editor", content: costume});
+		} 
 		var raw = React.createElement(RawEditor, {data: this.state.data, onChange: this.updateDataRaw, ref: "raw"})
+		tabs.push({title: "Raw Editor", content: raw});
 		return (
 			React.createElement("div", null, 
 				React.createElement("div", {className: "configForm"}, 
-					React.createElement(Tabs, {raw: raw, costume: costume})
+					React.createElement(Tabs, {tabs: tabs})
 				)
 			)
 		);
@@ -70,7 +77,6 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 	render: function() {
 		var confs = this.fetchConfigs();
 		var buttons = [
-			React.createElement("li", null, React.createElement("a", {onClick: this.showJSON}, React.createElement("i", {className: "mdi-image-remove-red-eye left"}), "Show JSON")),
       React.createElement("li", null, React.createElement("a", {onClick: this.handleSave}, React.createElement("i", {className: "mdi-file-file-upload right"}), "SAVE"))
 		];
 		return (
