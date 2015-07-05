@@ -82,8 +82,8 @@ var BoolInput = React.createClass({displayName: "BoolInput",
   },
 	render: function() {
 		return (
-			React.createElement("div", {className: "switch boolInput row"}, 
-				React.createElement("div", {className: "col s11"}, 
+			React.createElement("div", {className: "boolInput row valign-wrapper"}, 
+				React.createElement("div", {className: "switch col s11 valign"}, 
 			    React.createElement("label", null, 
 			      "False", 
 			      React.createElement("input", {disabled: this.state.isNull, type: "checkbox", checked: this.state.value, onChange: this.handleChange}), 
@@ -91,7 +91,7 @@ var BoolInput = React.createClass({displayName: "BoolInput",
 			      "True"
 			    )
 				), 
-			  React.createElement("div", {className: "col s1"}, 
+			  React.createElement("div", {className: "col s1 valign"}, 
 		    	React.createElement("p", {onClick: this.setNull}, 
 			      React.createElement("input", {ref: "nullbox", type: "checkbox", id: "nullbox", checked: this.state.isNull}), 
 			      React.createElement("label", {for: "nullbox"}, "Null")
@@ -369,7 +369,7 @@ var RawEditor = React.createClass({displayName: "RawEditor",
 	render: function() {
 		return (
 			React.createElement("div", {className: "row"}, 
-        React.createElement("div", {className: "input-field col s12"}, 
+        React.createElement("div", {className: "input-field col s12 hoverable"}, 
           React.createElement("textarea", {className: "materialize-textarea rawInput", value: this.state.data, onChange: this.handleChange})
         )
 		  )

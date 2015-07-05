@@ -33,6 +33,11 @@
   overflow-y: auto !important;
 }
 
+.rawConfigs {
+  white-space: pre;
+  font-size: medium !important;
+}
+
 .numInput, .strInput, .boolInput {
   max-width: 300px; 
 }

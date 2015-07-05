@@ -38,8 +38,12 @@ var ConfigForm = React.createClass({displayName: "ConfigForm",
 });
 
 var ConfigPage = React.createClass({displayName: "ConfigPage",
-	handleSave: function() {
+	getInitialState: function() {
+		return {confsToSave: ""};
+	},
+	handleSaveConfirm: function() {
 		var toSave = this.refs.confForm.state.data;
+		var dialog = this.refs.saveDialog;
 		console.log(toSave);
 		var url = '/save/' + this.props.system + "/" + this.props.config;
 		$.ajax({
@@ -51,6 +55,7 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
 	    async: false,
 	    success: function(msg) {
 	      alert(msg);
+	      dialog.close();
 	    }.bind(this),
 	    error: function(xhr, status, err) {
         console.error(xhr, status, err.toString());
@@ -74,13 +79,27 @@ var ConfigPage = React.createClass({displayName: "ConfigPage",
     });
     return data;
 	},
+	handleSave: function() {
+		var dialog = this.refs.saveDialog;
+		this.setState({confsToSave: this.refs.confForm.state.data}, function() {
+			dialog.open();
+		});
+	},
 	render: function() {
 		var confs = this.fetchConfigs();
-		var buttons = [
+		var navbarBtns = [
       React.createElement("li", null, React.createElement("a", {onClick: this.handleSave}, React.createElement("i", {className: "mdi-file-file-upload right"}), "SAVE"))
 		];
+		var dialogBtns = [
+			React.createElement(DialogAction, {onAction: this.handleSaveConfirm}, "Seems good!"),
+			React.createElement(DialogAction, {cancel: true, wavesColor: "red"}, "Cancel")
+		];
 		return (
-		  React.createElement(Layout, {navBackArrow: true, navBackRef: "/", navbarButtons: buttons}, 
+		  React.createElement(Layout, {navBackArrow: true, navBackRef: "/", navbarButtons: navbarBtns}, 
+		  	React.createElement(Dialog, {modalId: "save", actions: dialogBtns, ref: "saveDialog"}, 
+		  		React.createElement("h4", null, "Save these configurations?"), 
+		  		React.createElement("p", {className: "rawConfigs"}, this.state.confsToSave)
+		  	), 
 				React.createElement("div", null, 
 					React.createElement("div", {className: "configHeader"}, 
 						React.createElement("h1", {className: "systemTitle"}, this.props.system), 

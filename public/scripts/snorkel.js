@@ -38,8 +38,12 @@ var ConfigForm = React.createClass({
 });
 
 var ConfigPage = React.createClass({
-	handleSave: function() {
+	getInitialState: function() {
+		return {confsToSave: ""};
+	},
+	handleSaveConfirm: function() {
 		var toSave = this.refs.confForm.state.data;
+		var dialog = this.refs.saveDialog;
 		console.log(toSave);
 		var url = '/save/' + this.props.system + "/" + this.props.config;
 		$.ajax({
@@ -51,6 +55,7 @@ var ConfigPage = React.createClass({
 	    async: false,
 	    success: function(msg) {
 	      alert(msg);
+	      dialog.close();
 	    }.bind(this),
 	    error: function(xhr, status, err) {
         console.error(xhr, status, err.toString());
@@ -74,13 +79,27 @@ var ConfigPage = React.createClass({
     });
     return data;
 	},
+	handleSave: function() {
+		var dialog = this.refs.saveDialog;
+		this.setState({confsToSave: this.refs.confForm.state.data}, function() {
+			dialog.open();
+		});
+	},
 	render: function() {
 		var confs = this.fetchConfigs();
-		var buttons = [
+		var navbarBtns = [
       <li><a onClick={this.handleSave}><i className="mdi-file-file-upload right"></i>SAVE</a></li>
 		];
+		var dialogBtns = [
+			<DialogAction onAction={this.handleSaveConfirm}>Seems good!</DialogAction>,
+			<DialogAction cancel wavesColor="red">Cancel</DialogAction>
+		];
 		return (
-		  <Layout navBackArrow navBackRef="/" navbarButtons={buttons}>
+		  <Layout navBackArrow navBackRef="/" navbarButtons={navbarBtns}>
+		  	<Dialog modalId="save" actions={dialogBtns} ref="saveDialog">
+		  		<h4>Save these configurations?</h4>
+		  		<p className="rawConfigs">{this.state.confsToSave}</p>
+		  	</Dialog>
 				<div>
 					<div className="configHeader">
 						<h1 className="systemTitle">{this.props.system}</h1>

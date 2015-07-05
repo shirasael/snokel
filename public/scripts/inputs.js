@@ -82,8 +82,8 @@ var BoolInput = React.createClass({
   },
 	render: function() {
 		return (
-			<div className="switch boolInput row">
-				<div className="col s11">
+			<div className="boolInput row valign-wrapper">
+				<div className="switch col s11 valign">
 			    <label>
 			      False
 			      <input disabled={this.state.isNull} type="checkbox" checked={this.state.value} onChange={this.handleChange}/>
@@ -91,7 +91,7 @@ var BoolInput = React.createClass({
 			      True
 			    </label>
 				</div>
-			  <div className="col s1">
+			  <div className="col s1 valign">
 		    	<p onClick={this.setNull}>
 			      <input ref="nullbox" type="checkbox" id="nullbox" checked={this.state.isNull}/>
 			      <label for="nullbox">Null</label>
@@ -369,7 +369,7 @@ var RawEditor = React.createClass({
 	render: function() {
 		return (
 			<div className="row">
-        <div className="input-field col s12">
+        <div className="input-field col s12 hoverable">
           <textarea className="materialize-textarea rawInput" value={this.state.data} onChange={this.handleChange}></textarea>
         </div>
 		  </div>

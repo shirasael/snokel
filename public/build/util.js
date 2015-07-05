@@ -38,6 +38,44 @@ var MaterialButton = React.createClass({displayName: "MaterialButton",
   }
 });
 
+var DialogAction = React.createClass({displayName: "DialogAction",
+  render: function() {
+    var closeClass = this.props.cancel ? " modal-close" : "";
+    var wavesColor = " waves-" + (this.props.wavesColor ? this.props.wavesColor : "green");
+    return (
+      React.createElement("a", {onClick: this.props.onAction, className: "modal-action waves-effect btn-flat" + closeClass + wavesColor}, 
+        this.props.children
+      )
+    );
+  }
+});
+
+var Dialog = React.createClass({displayName: "Dialog",
+  getInitialState: function() {
+    return {content: this.props.children};
+  },
+  open: function() {
+    $('#' + this.props.modalId).openModal();
+  },
+  close: function() {
+    $('#' + this.props.modalId).closeModal();
+  },
+  render: function() {
+    return (
+      React.createElement("div", null, 
+        React.createElement("div", {id: this.props.modalId, className: "modal modal-fixed-footer"}, 
+          React.createElement("div", {className: "modal-content"}, 
+            this.props.children
+          ), 
+          React.createElement("div", {className: "modal-footer"}, 
+            this.props.actions
+          )
+        )
+      )
+    );
+  }
+});
+
 var NavBar = React.createClass({displayName: "NavBar",
   render: function() {
     return (
@@ -59,9 +97,6 @@ var NavBar = React.createClass({displayName: "NavBar",
 });
 
 var Tabs = React.createClass({displayName: "Tabs",
-  getTabID: function(title, index) {
-    return ;
-  },
   render: function() {
     var tabs = this.props.tabs.map((function (tab, index) {
             var tabID = String(tab.title).replace(new RegExp(' ', 'g'), '_') + String(index);
