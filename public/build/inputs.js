@@ -189,6 +189,32 @@ var DictInput = React.createClass({displayName: "DictInput",
 	}
 });
 
+var UnknownInput = React.createClass({displayName: "UnknownInput",
+	typeChosen: function() {
+		if (this.refs.compType.getSelectedValue()) {
+			this.props.typeSelected(this.refs.compType.getSelectedValue());
+		}
+	},
+	render: function() {
+		return (
+			React.createElement("div", {className: "row valign-wrapper unknowInput"}, 
+				React.createElement("div", {className: "col s2 valign"}, 
+					React.createElement("p", null, 
+			      React.createElement("input", {ref: "nullbox", type: "checkbox", id: "nullbox", checked: true}), 
+			      React.createElement("label", {for: "nullbox"}, "Null")
+			    )
+				), 
+				React.createElement("div", {className: "col s4 valign"}, 
+					React.createElement(TypeSelector, {ref: "compType"})
+				), 
+				React.createElement("div", {className: "col s1 valign"}, 
+				  React.createElement("a", {className: "btn-floating btn-small waves-effect waves-light", onClick: this.typeChosen}, React.createElement("i", {className: "mdi-editor-mode-edit"}))
+				)
+			)
+		);
+	}
+});
+
 
 var TypeSelector = React.createClass({displayName: "TypeSelector",
 	getInitialState: function() {
@@ -289,8 +315,15 @@ var ConfigComponent = React.createClass({displayName: "ConfigComponent",
 		this.state.over = false;
 		this.setState(this.state);
 	},
+	setType: function(type) {
+		this.state.dataMeta.self = type;
+		this.setState(this.state);
+	},
   render: function() {
   	var inputElem = InputHelper.generateInputElement(this.state.value, this.handleChange, this.state.dataMeta);
+  	if (!inputElem) {
+  		inputElem = React.createElement(UnknownInput, {typeSelected: this.setType})
+  	}
   	var clazz = "configComp row" + (this.state.over ? " focused" : "");
     return (
     	React.createElement("div", {className: clazz, onMouseLeave: this.onMouseLeave, onMouseOver: this.onMouseOver}, 
@@ -343,6 +376,8 @@ var JsonEditor = React.createClass({displayName: "JsonEditor",
 	getMetaType: function(elm) {
 		if (Array.isArray(elm)) {
 			return "list";
+		} else if (elm == null) {
+			return null;
 		} else {
 			return typeof elm;
 		}

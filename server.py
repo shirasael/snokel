@@ -25,16 +25,16 @@ def load(system_name, config_file):
     res = {
         "something": "123",
         "somethingElse": 55,
-        "completelyDifferent": True,
-        "notSoSpecial": [1, 2, 3, 4],
+        "completelyDifferent": None,
+        "notSoSpecial": [None, None, 3, 4],
         "soUnique": {
             "a": [
                 {
-                    "hello": 1,
-                    "there": 2,
+                    "hello": {},
+                    "there": None,
                 },
                 {
-                    "hi": "to",
+                    "hi": None,
                     "you": "too"
                 }
             ]

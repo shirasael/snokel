@@ -189,6 +189,32 @@ var DictInput = React.createClass({
 	}
 });
 
+var UnknownInput = React.createClass({
+	typeChosen: function() {
+		if (this.refs.compType.getSelectedValue()) {
+			this.props.typeSelected(this.refs.compType.getSelectedValue());
+		}
+	},
+	render: function() {
+		return (
+			<div className="row valign-wrapper unknowInput">
+				<div className="col s2 valign">
+					<p>
+			      <input ref="nullbox" type="checkbox" id="nullbox" checked/>
+			      <label for="nullbox">Null</label>
+			    </p>
+				</div>
+				<div className="col s4 valign">
+					<TypeSelector ref="compType"></TypeSelector>
+				</div>
+				<div className="col s1 valign">
+				  <a className="btn-floating btn-small waves-effect waves-light" onClick={this.typeChosen}><i className="mdi-editor-mode-edit"></i></a>
+				</div>
+			</div>
+		);
+	}
+});
+
 
 var TypeSelector = React.createClass({
 	getInitialState: function() {
@@ -289,8 +315,15 @@ var ConfigComponent = React.createClass({
 		this.state.over = false;
 		this.setState(this.state);
 	},
+	setType: function(type) {
+		this.state.dataMeta.self = type;
+		this.setState(this.state);
+	},
   render: function() {
   	var inputElem = InputHelper.generateInputElement(this.state.value, this.handleChange, this.state.dataMeta);
+  	if (!inputElem) {
+  		inputElem = <UnknownInput typeSelected={this.setType}/>
+  	}
   	var clazz = "configComp row" + (this.state.over ? " focused" : "");
     return (
     	<div className={clazz} onMouseLeave={this.onMouseLeave} onMouseOver={this.onMouseOver}>
@@ -343,6 +376,8 @@ var JsonEditor = React.createClass({
 	getMetaType: function(elm) {
 		if (Array.isArray(elm)) {
 			return "list";
+		} else if (elm == null) {
+			return null;
 		} else {
 			return typeof elm;
 		}
