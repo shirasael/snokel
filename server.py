@@ -1,7 +1,7 @@
 import json
 import os
 from flask import Flask, Response, request, render_template
-from _hq.main import SnorkelHQCommander
+from hq.main import SnorkelHQCommander
 
 app = Flask(__name__, static_url_path='', static_folder='public', template_folder='public')
 commander = SnorkelHQCommander('localhost')
